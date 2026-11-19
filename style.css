@@ -7,45 +7,78 @@
 
 body {
     min-height: 100vh;
-    background: #080808;
+    background: radial-gradient(circle at top, #202020, #080808 60%);
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 .calculator {
-    width: 360px;
+    width: 370px;
     max-width: 95vw;
-    padding: 25px 20px;
     background: #000;
-    border-radius: 40px;
-    box-shadow: 0 20px 70px #000;
+    border: 1px solid #242424;
+    border-radius: 38px;
+    padding: 22px 20px 15px;
+    box-shadow: 0 25px 80px #000b;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #888;
+    font-size: 11px;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.mode-btn {
+    width: auto;
+    height: 32px;
+    padding: 0 14px;
+    border-radius: 20px;
+    background: #292929;
+    color: #ff9f0a;
+    font-size: 12px;
 }
 
 .display {
-    height: 190px;
+    height: 155px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
-    padding: 15px 5px;
+    padding: 12px 5px 20px;
     overflow: hidden;
 }
 
 #history {
     color: #777;
-    font-size: 20px;
-    min-height: 30px;
+    font-size: 17px;
+    min-height: 28px;
 }
 
 #result {
     color: white;
-    font-size: clamp(45px, 13vw, 65px);
+    font-size: clamp(42px, 12vw, 65px);
     font-weight: 300;
     max-width: 100%;
     overflow-x: auto;
     white-space: nowrap;
+}
+
+.scientific {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 9px;
+    margin-bottom: 12px;
+}
+
+.scientific[hidden] {
+    display: none;
 }
 
 .buttons {
@@ -55,20 +88,21 @@ body {
 }
 
 button {
+    border: none;
     width: 100%;
     aspect-ratio: 1;
-    border: none;
     border-radius: 50%;
-    background: #333333;
+    background: #333;
     color: white;
-    font-size: 27px;
+    font-size: 26px;
     font-weight: 400;
     cursor: pointer;
-    transition: 0.15s;
+    transition: transform .12s, filter .12s;
+    -webkit-tap-highlight-color: transparent;
 }
 
 button:active {
-    transform: scale(0.88);
+    transform: scale(.88);
     filter: brightness(1.5);
 }
 
@@ -80,12 +114,7 @@ button:active {
 .operator {
     background: #ff9f0a;
     color: white;
-    font-size: 32px;
-}
-
-.operator.active {
-    background: white;
-    color: #ff9f0a;
+    font-size: 31px;
 }
 
 .zero {
@@ -96,9 +125,27 @@ button:active {
     padding-left: 30px;
 }
 
-@media (max-width: 380px) {
+.scientific button {
+    font-size: 17px;
+    background: #242424;
+    color: #ffb340;
+}
+
+.footer {
+    text-align: center;
+    color: #555;
+    font-size: 10px;
+    letter-spacing: 1px;
+    margin-top: 17px;
+}
+
+@media(max-width: 380px) {
     .buttons {
         gap: 9px;
+    }
+
+    .scientific {
+        gap: 7px;
     }
 
     button {

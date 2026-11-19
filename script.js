@@ -1,6 +1,7 @@
 
 const result = document.getElementById("result");
 const history = document.getElementById("history");
+const sciPanel = document.getElementById("sciPanel");
 
 let current = "0";
 let previous = null;
@@ -11,26 +12,27 @@ function update() {
     result.textContent = current;
 }
 
+function format(n) {
+    if (!Number.isFinite(n)) return "Error";
+    return String(Number(n.toPrecision(12)));
+}
+
 function calculate(a, b, op) {
     switch (op) {
         case "+": return a + b;
         case "-": return a - b;
         case "*": return a * b;
-        case "/": return b === 0 ? "Error" : a / b;
+        case "/": return b === 0 ? NaN : a / b;
+        default: return b;
     }
 }
 
-function format(number) {
-    if (!Number.isFinite(number)) return "Error";
-    return String(Number(number.toPrecision(12)));
-}
-
-function inputNumber(num) {
+function inputNumber(n) {
     if (current === "Error" || resetNext) {
-        current = num;
+        current = n;
         resetNext = false;
-    } else if (current.replace("-", "").length < 12) {
-        current = current === "0" ? num : current + num;
+    } else if (current.replace("-", "").length < 14) {
+        current = current === "0" ? n : current + n;
     }
     update();
 }
@@ -39,32 +41,27 @@ function chooseOperator(op) {
     if (current === "Error") return;
 
     if (operator && !resetNext) {
-        const answer = calculate(
-            Number(previous),
-            Number(current),
-            operator
+        current = format(
+            calculate(Number(previous), Number(current), operator)
         );
-
-        current = format(answer);
-        update();
     }
 
     previous = current;
     operator = op;
     resetNext = true;
-    history.textContent = current + " " + op;
+    history.textContent = `${current} ${op}`;
+    update();
 }
 
 function equal() {
     if (!operator || previous === null) return;
 
-    const a = Number(previous);
-    const b = Number(current);
-    const answer = calculate(a, b, operator);
+    const expression = `${previous} ${operator} ${current}`;
+    current = format(
+        calculate(Number(previous), Number(current), operator)
+    );
 
-    history.textContent = `${previous} ${operator} ${current} =`;
-    current = format(answer);
-
+    history.textContent = expression + " =";
     previous = null;
     operator = null;
     resetNext = true;
@@ -106,22 +103,102 @@ function percent() {
     update();
 }
 
+function backspace() {
+    if (current === "Error" || resetNext) {
+        current = "0";
+        resetNext = false;
+    } else {
+        current = current.length <= 1 ||
+            (current.length === 2 && current.startsWith("-"))
+            ? "0"
+            : current.slice(0, -1);
+    }
+    update();
+}
+
+function unary(action) {
+    const n = Number(current);
+    let answer;
+
+    if (current === "Error") return;
+
+    switch (action) {
+        case "sqrt":
+            answer = n < 0 ? NaN : Math.sqrt(n);
+            break;
+        case "square":
+            answer = n * n;
+            break;
+        case "reciprocal":
+            answer = n === 0 ? NaN : 1 / n;
+            break;
+        case "sin":
+            answer = Math.sin(n * Math.PI / 180);
+            break;
+        case "cos":
+            answer = Math.cos(n * Math.PI / 180);
+            break;
+        case "tan":
+            answer = Math.abs(Math.cos(n * Math.PI / 180)) < 1e-12
+                ? NaN
+                : Math.tan(n * Math.PI / 180);
+            break;
+    }
+
+    history.textContent = action + "(" + current + ")";
+    current = format(answer);
+    resetNext = true;
+    update();
+}
+
+function pi() {
+    current = format(Math.PI);
+    resetNext = true;
+    history.textContent = "π";
+    update();
+}
+
 document.querySelectorAll("button").forEach(button => {
     button.addEventListener("click", () => {
-        if (button.dataset.number !== undefined) {
-            inputNumber(button.dataset.number);
-        }
+        const n = button.dataset.number;
+        const op = button.dataset.op;
+        const action = button.dataset.action;
 
-        if (button.dataset.op) {
-            chooseOperator(button.dataset.op);
-        }
+        if (n !== undefined) inputNumber(n);
+        if (op) chooseOperator(op);
 
-        switch (button.dataset.action) {
+        switch (action) {
             case "clear": clear(); break;
             case "decimal": decimal(); break;
             case "sign": sign(); break;
             case "percent": percent(); break;
             case "equals": equal(); break;
+            case "backspace": backspace(); break;
+            case "scientific":
+                sciPanel.hidden = !sciPanel.hidden;
+                break;
+            case "pi": pi(); break;
+            case "sqrt":
+            case "square":
+            case "reciprocal":
+            case "sin":
+            case "cos":
+            case "tan":
+                unary(action);
+                break;
         }
     });
+});
+
+// Keyboard support
+document.addEventListener("keydown", event => {
+    const key = event.key;
+
+    if (/^[0-9]$/.test(key)) inputNumber(key);
+    else if (key === ".") decimal();
+    else if (["+", "-", "*", "/"].includes(key)) chooseOperator(key);
+    else if (key === "Enter" || key === "=") equal();
+    else if (key === "Backspace") backspace();
+    else if (key === "Escape") clear();
+    else if (key === "%") percent();
 });
