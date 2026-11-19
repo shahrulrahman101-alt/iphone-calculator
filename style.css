@@ -7,22 +7,22 @@
 
 body {
     min-height: 100vh;
-    background: radial-gradient(circle at top, #202020, #080808 60%);
+    padding: 20px 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px 0;
+    background: radial-gradient(circle at top, #252525, #070707 65%);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 .calculator {
-    width: 370px;
-    max-width: 95vw;
-    background: #000;
-    border: 1px solid #242424;
+    width: 390px;
+    max-width: 96vw;
+    padding: 22px 20px 17px;
     border-radius: 38px;
-    padding: 22px 20px 15px;
-    box-shadow: 0 25px 80px #000b;
+    background: #000;
+    border: 1px solid #292929;
+    box-shadow: 0 25px 90px #000b;
 }
 
 .topbar {
@@ -31,78 +31,89 @@ body {
     align-items: center;
     color: #888;
     font-size: 11px;
+    font-weight: bold;
     letter-spacing: 2px;
-    font-weight: 700;
 }
 
-.mode-btn {
+.small-btn {
     width: auto;
     height: 32px;
-    padding: 0 14px;
+    aspect-ratio: auto;
+    padding: 0 12px;
     border-radius: 20px;
-    background: #292929;
+    background: #252525;
     color: #ff9f0a;
     font-size: 12px;
 }
 
 .display {
-    height: 155px;
+    min-height: 165px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
-    padding: 12px 5px 20px;
+    padding: 15px 5px 22px;
     overflow: hidden;
 }
 
 #history {
     color: #777;
     font-size: 17px;
-    min-height: 28px;
+    min-height: 26px;
 }
 
 #result {
     color: white;
-    font-size: clamp(42px, 12vw, 65px);
+    font-size: clamp(38px, 11vw, 62px);
     font-weight: 300;
     max-width: 100%;
-    overflow-x: auto;
     white-space: nowrap;
+    overflow-x: auto;
+}
+
+#decimalResult {
+    color: #888;
+    font-size: 15px;
+    min-height: 22px;
+    margin-top: 5px;
 }
 
 .scientific {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 9px;
-    margin-bottom: 12px;
+    margin-bottom: 13px;
 }
 
-.scientific[hidden] {
-    display: none;
+.scientific button {
+    background: #252525;
+    color: #ffad32;
+    font-size: 16px;
+    aspect-ratio: 1.3;
+    border-radius: 15px;
 }
 
 .buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    gap: 11px;
 }
 
 button {
-    border: none;
     width: 100%;
     aspect-ratio: 1;
+    border: none;
     border-radius: 50%;
     background: #333;
     color: white;
-    font-size: 26px;
-    font-weight: 400;
+    font-size: 25px;
     cursor: pointer;
-    transition: transform .12s, filter .12s;
+    transition: .15s;
     -webkit-tap-highlight-color: transparent;
 }
 
 button:active {
-    transform: scale(.88);
+    transform: scale(.87);
     filter: brightness(1.5);
 }
 
@@ -113,8 +124,7 @@ button:active {
 
 .operator {
     background: #ff9f0a;
-    color: white;
-    font-size: 31px;
+    font-size: 30px;
 }
 
 .zero {
@@ -125,30 +135,24 @@ button:active {
     padding-left: 30px;
 }
 
-.scientific button {
-    font-size: 17px;
-    background: #242424;
-    color: #ffb340;
-}
-
 .footer {
-    text-align: center;
     color: #555;
-    font-size: 10px;
-    letter-spacing: 1px;
-    margin-top: 17px;
+    text-align: center;
+    font-size: 9px;
+    letter-spacing: 2px;
+    margin-top: 19px;
 }
 
 @media(max-width: 380px) {
+    .calculator {
+        padding: 17px 14px;
+    }
+
     .buttons {
-        gap: 9px;
+        gap: 8px;
     }
 
     .scientific {
         gap: 7px;
-    }
-
-    button {
-        font-size: 23px;
     }
 }

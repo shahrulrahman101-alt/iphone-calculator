@@ -2,39 +2,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone Calculator Pro</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculator Pro</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <main class="calculator">
     <div class="topbar">
         <span>CALCULATOR PRO</span>
-        <button class="mode-btn" data-action="scientific">SCI</button>
+        <div>
+            <button class="small-btn" id="angleMode">DEG</button>
+            <button class="small-btn" id="sciToggle">SCI</button>
+        </div>
     </div>
 
     <div class="display">
         <div id="history"></div>
         <div id="result">0</div>
+        <div id="decimalResult"></div>
     </div>
 
-    <div class="scientific" id="sciPanel" hidden>
-        <button class="function" data-action="sin">sin</button>
-        <button class="function" data-action="cos">cos</button>
-        <button class="function" data-action="tan">tan</button>
-        <button class="function" data-action="sqrt">√</button>
-        <button class="function" data-action="square">x²</button>
-        <button class="function" data-action="reciprocal">1/x</button>
-        <button class="function" data-action="pi">π</button>
-        <button class="function" data-action="backspace">⌫</button>
+    <div class="scientific" id="sciPanel">
+        <button data-action="sin">sin</button>
+        <button data-action="cos">cos</button>
+        <button data-action="tan">tan</button>
+        <button data-action="sqrt">√</button>
+
+        <button data-action="square">x²</button>
+        <button data-action="power">xʸ</button>
+        <button data-action="reciprocal">1/x</button>
+        <button data-action="factorial">x!</button>
+
+        <button data-action="log">log</button>
+        <button data-action="ln">ln</button>
+        <button data-action="abs">|x|</button>
+        <button data-action="backspace">⌫</button>
+
+        <button data-action="pi">π</button>
+        <button data-action="e">e</button>
+        <button data-action="ans">Ans</button>
+        <button data-action="percent">%</button>
     </div>
 
     <div class="buttons">
         <button class="function" data-action="clear">AC</button>
         <button class="function" data-action="sign">+/−</button>
-        <button class="function" data-action="percent">%</button>
+        <button class="function" data-action="parenthesis">( )</button>
         <button class="operator" data-op="/">÷</button>
 
         <button data-number="7">7</button>
@@ -57,7 +72,7 @@
         <button class="operator" data-action="equals">=</button>
     </div>
 
-    <div class="footer">Designed with precision</div>
+    <div class="footer">PRECISION • ELEGANCE • INTELLIGENCE</div>
 </main>
 
 <script src="script.js"></script>
