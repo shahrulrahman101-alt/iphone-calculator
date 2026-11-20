@@ -156,3 +156,15 @@ button:active {
         gap: 7px;
     }
 }
+
+/* Scientific upgrade: keep the original iPhone-inspired palette */
+.scientific button {
+    min-width: 0;
+    aspect-ratio: auto;
+    min-height: 43px;
+    padding: 7px 2px;
+    font-size: clamp(12px, 3.4vw, 16px);
+    font-weight: 500;
+}
+.scientific button:active { background: #454545; }
+button { user-select: none; }
